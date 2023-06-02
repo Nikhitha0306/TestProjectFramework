@@ -9,6 +9,7 @@ using WebDriverManager.DriverConfigs.Impl;
 using NUnit.Framework;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using System.Configuration;
 
 namespace TestProjectFramework.Utilities
 {
@@ -23,7 +24,9 @@ namespace TestProjectFramework.Utilities
         public void StartBrowser()
 
         {
-            InitBrowser("Chrome");
+            //Configuration
+            String browserName = ConfigurationManager.AppSettings["browser"];
+            InitBrowser(browserName);
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
