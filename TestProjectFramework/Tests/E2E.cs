@@ -5,37 +5,23 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using TestProjectFramework.Utilities;
 using WebDriverManager.DriverConfigs.Impl;
 
-namespace TestProjectFramework
+namespace TestProjectFramework.Tests
 {
-    public class E2ETest
+    public class E2ETest : BaseTests
     {
 
-        IWebDriver driver;
-        [SetUp]
 
-        public void StartBrowser()
-
-        {
-            new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-            driver = new ChromeDriver();
-
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
-            driver.Manage().Window.Maximize();
-            driver.Url = "https://rahulshettyacademy.com/loginpagePractise/";
-
-
-        }
 
         [Test]
         public void EndToEndFlow()
 
         {
 
-            String[] expectedProducts = { "iphone X", "Blackberry" };
-            String[] actualProducts = new string[2];
+            string[] expectedProducts = { "iphone X", "Blackberry" };
+            string[] actualProducts = new string[2];
             driver.FindElement(By.Id("username")).SendKeys("rahulshettyacademy");
             driver.FindElement(By.Name("password")).SendKeys("learning");
             driver.FindElement(By.XPath("//div[@class='form-group'][5]/label/span/input")).Click();
@@ -67,7 +53,7 @@ namespace TestProjectFramework
 
 
             }
-            Assert.AreEqual(expectedProducts, actualProducts);
+            Assert.That(actualProducts, Is.EqualTo(expectedProducts));
 
             driver.FindElement(By.CssSelector(".btn-success")).Click();
 
@@ -79,7 +65,7 @@ namespace TestProjectFramework
 
             driver.FindElement(By.CssSelector("label[for*='checkbox2']")).Click();
             driver.FindElement(By.CssSelector("[value='Purchase']")).Click();
-            String confirText = driver.FindElement(By.CssSelector(".alert-success")).Text;
+            string confirText = driver.FindElement(By.CssSelector(".alert-success")).Text;
 
             StringAssert.Contains("Success", confirText);
 
