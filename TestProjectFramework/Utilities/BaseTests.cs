@@ -34,6 +34,13 @@ namespace TestProjectFramework.Utilities
             driver.Url = "https://rahulshettyacademy.com/loginpagePractise/";
 
         }
+
+        public IWebDriver getDriver()
+        
+        { 
+            return driver;
+        
+        }
        
 
         //Handling Browser mechanism

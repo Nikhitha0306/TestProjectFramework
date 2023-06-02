@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using TestProjectFramework.PageObjects;
 using TestProjectFramework.Utilities;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -22,10 +23,13 @@ namespace TestProjectFramework.Tests
 
             string[] expectedProducts = { "iphone X", "Blackberry" };
             string[] actualProducts = new string[2];
-            driver.FindElement(By.Id("username")).SendKeys("rahulshettyacademy");
-            driver.FindElement(By.Name("password")).SendKeys("learning");
-            driver.FindElement(By.XPath("//div[@class='form-group'][5]/label/span/input")).Click();
-            driver.FindElement(By.XPath("//input[@value='Sign In']")).Click();
+
+            LoginPage loginPage = new LoginPage(getDriver());
+            loginPage.validLogin("rahulshettyacademy", "learning");
+
+           
+            
+           
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.PartialLinkText("Checkout")));
 
