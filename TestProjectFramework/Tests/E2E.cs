@@ -25,28 +25,23 @@ namespace TestProjectFramework.Tests
             string[] actualProducts = new string[2];
 
             LoginPage loginPage = new LoginPage(getDriver());
-            loginPage.validLogin("rahulshettyacademy", "learning");
-
+            ProductsPage productsPage = loginPage.validLogin("rahulshettyacademy", "learning");
+            productsPage.waitForPageDisplay();
            
-            
-           
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.PartialLinkText("Checkout")));
-
-            IList<IWebElement> products = driver.FindElements(By.TagName("app-card"));
+            IList<IWebElement> products = productsPage.getCards();
 
             foreach (IWebElement product in products)
             {
 
-                if (expectedProducts.Contains(product.FindElement(By.CssSelector(".card-title a")).Text))
+                if (expectedProducts.Contains(product.FindElement(productsPage.getCardTitle()).Text))
 
                 {
-                    product.FindElement(By.CssSelector(".card-footer button")).Click();
+                    product.FindElement(productsPage.getCardButton()).Click();
                 }
-                TestContext.Progress.WriteLine(product.FindElement(By.CssSelector(".card-title a")).Text);
+                
 
             }
-            driver.FindElement(By.PartialLinkText("Checkout")).Click();
+            productsPage.getCheckout().Click();
             IList<IWebElement> checkoutCards = driver.FindElements(By.CssSelector("h4 a"));
 
             for (int i = 0; i < checkoutCards.Count; i++)
@@ -62,6 +57,8 @@ namespace TestProjectFramework.Tests
             driver.FindElement(By.CssSelector(".btn-success")).Click();
 
             driver.FindElement(By.Id("country")).SendKeys("ind");
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
 
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("India")));
             driver.FindElement(By.LinkText("India")).Click();
